@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [Header("Gravity Control")]
     [SerializeField] private float base_gravity_ = 2.0f;
     [SerializeField] private float dash_gravity_multiplier_ = 0.5f;
+    [SerializeField] private float ground_check_distance_ = 3.0f;
 
     [Header("Other Variables")]
     private float dash_timer_;
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float jump_hold_time = 0.1f;
     private float jump_hold_timer = 0.0f;
 
-    private bool is_jumping = false;
+    private bool is_updated = false;
     public bool is_grounded = false;
     public bool is_dashing = false;
 
@@ -45,10 +46,12 @@ public class Player : MonoBehaviour
 
     public void UpdateCollisionBox()
     {
-        if (sprite_.sprite != null)
+        if (sprite_.sprite != null && !is_updated)
         {
             box_collider_.offset = sprite_.sprite.bounds.center;
             box_collider_.size = sprite_.sprite.bounds.size;
+
+            is_updated = true;  
         }
     }
 
@@ -91,31 +94,22 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y);
-        if (is_grounded)
+        if (IsGrounded())
         {
-            is_jumping = false;
+            is_grounded = true;
             animator_.SetBool("IsJumping", false);
             if (Input.GetButtonDown("Jump"))
             {
-                jump_hold_timer = jump_hold_time;
-            } else
-            {
-                jump_hold_timer -= Time.deltaTime;
-            }
-
-            if (jump_hold_timer > 0.0f)
-            {
-                animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y);
-
                 float current_hori_drift = is_dashing ? dash_horizontal_drift_ : horizontal_drift_;
                 float current_jump_force = is_dashing ? dash_jump_force_ : jump_force_;
-                rigidbody_.linearVelocity = new Vector2(current_hori_drift, current_jump_force);
-                is_jumping = true;
+                rigidbody_.linearVelocity = new Vector2(rigidbody_.linearVelocityX, current_jump_force);
 
-                animator_.SetBool("IsJumping", true);
-
-                jump_hold_timer = 0.0f;
-            }
+                animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y); 
+            } 
+        } else
+        {
+            animator_.SetBool("IsJumping", true);
+            is_grounded = false;
         }
     }
 
@@ -123,7 +117,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            is_grounded = true;
+            //is_grounded = true;
         }
     }
 
@@ -131,14 +125,25 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            is_grounded = false;
+            //is_grounded = false;
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (transform == null) return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position,
+                              ground_check_distance_);
     }
 
     private bool IsGrounded()
     {
+        Collider2D hit = Physics2D.OverlapCircle(transform.position,
+                                                  ground_check_distance_,
+                                                  ground_layer_);
 
-        return Physics.Raycast(transform.position, Vector3.down, 
-                               0.1f, ground_layer_);
+        return hit;
     }
 }

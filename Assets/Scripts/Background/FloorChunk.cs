@@ -112,7 +112,6 @@ public class FloorChunk : MonoBehaviour
             if ((chunk_right_edge + 2.0f) < (camera_left_edge_ - 5.0f))
             {
                 DeleteOldestChunk();
-                chunk_counter--;
             }
         }
     }
@@ -180,7 +179,7 @@ public class FloorChunk : MonoBehaviour
             spawn_x = cam.transform.position.x - camera_half_width_ + (chunk_width_ * 0.10f);
         }
 
-        new_chunk.transform.position = new Vector3(spawn_x, -3.96f, 0.0f);
+        new_chunk.transform.position = new Vector3(spawn_x, -4.0f, 0.0f);
         active_chunks_.Add(new_chunk);
     }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameManager instance;
+    static public GameManager instance;
 
     private Player player_;
     private FloorChunk floor_chunk_;
@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+        CoinManager.instance.UpdateCoins();
+        CoinManager.instance.UpdateTextOnScreen();
     }
 
     private void FixedUpdate()
