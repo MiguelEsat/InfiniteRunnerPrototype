@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SUCART-DarkDruid (Death)_0: 5323034820439941460
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

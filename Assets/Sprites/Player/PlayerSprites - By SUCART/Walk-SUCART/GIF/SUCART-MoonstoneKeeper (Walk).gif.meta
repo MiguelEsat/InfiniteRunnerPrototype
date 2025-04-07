@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SUCART-MoonstoneKeeper (Walk)_0: 2733752173968439996
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
