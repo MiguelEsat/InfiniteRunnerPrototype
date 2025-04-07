@@ -32,5 +32,15 @@ public class GameManager : MonoBehaviour
     private void FixedUpdate()
     {
         player_.PlayerControl();
+        player_.UpdateCollisionBox();
+
+        floor_chunk_.UpdateChunks();
+        if (player_.is_dashing)
+        {
+            floor_chunk_.UpdateChunkSpeed();
+        } else
+        {
+            floor_chunk_.speed = 2.0f;
+        }
     }
 }

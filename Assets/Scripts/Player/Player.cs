@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     private Animator animator_;
     private BoxCollider2D box_collider_;
     private Rigidbody2D rigidbody_;
+    private SpriteRenderer sprite_;
 
     [Header("Jump Physics")]
     [SerializeField] private float jump_force_ = 12.0f;
@@ -23,12 +24,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float jump_hold_time = 0.1f;
     private float jump_hold_timer = 0.0f;
 
-    [SerializeField] private float coyote_time = 0.1f;
-    private float coyote_timer = 0.0f;
-
     private bool is_jumping = false;
-    private bool is_grounded = false;
-    private bool is_dashing = false;
+    public bool is_grounded = false;
+    public bool is_dashing = false;
 
     [SerializeField] private LayerMask ground_layer_;
 
@@ -37,11 +35,21 @@ public class Player : MonoBehaviour
         animator_ = GetComponent<Animator>();   
         box_collider_ = GetComponent<BoxCollider2D>();
         rigidbody_ = GetComponent<Rigidbody2D>();
+        sprite_ = GetComponent <SpriteRenderer>();
     }
 
     void Update()
     {
         
+    }
+
+    public void UpdateCollisionBox()
+    {
+        if (sprite_.sprite != null)
+        {
+            box_collider_.offset = sprite_.sprite.bounds.center;
+            box_collider_.size = sprite_.sprite.bounds.size;
+        }
     }
 
     public void PlayerControl()
