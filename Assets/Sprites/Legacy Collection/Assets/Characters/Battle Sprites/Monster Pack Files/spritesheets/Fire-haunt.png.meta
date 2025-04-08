@@ -117,6 +117,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -309,7 +322,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Fire-haunt_0: 1354382534318672452
+      Fire-haunt_1: 6598845504598847056
+      Fire-haunt_2: 8612620105889319778
+      Fire-haunt_3: 6201800847650568043
+      Fire-haunt_4: 4955191163835691796
+      Fire-haunt_5: 5932515789440138510
+      Fire-haunt_6: -1576669743199083357
+      Fire-haunt_7: 7734068206843477277
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

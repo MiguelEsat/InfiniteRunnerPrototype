@@ -111,6 +111,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -259,7 +272,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      cyberpunk-corridor-foreground_0: -4976300395368239279
+      cyberpunk-corridor-foreground_1: 3750017243048431243
+      cyberpunk-corridor-foreground_2: -2440002004452664163
+      cyberpunk-corridor-foreground_3: -3531238918044215435
+      cyberpunk-corridor-foreground_4: -3544720872397951233
+      cyberpunk-corridor-foreground_5: 127954010597146995
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

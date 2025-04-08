@@ -126,6 +126,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -384,7 +397,18 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      hell-hound-idle_0: 3918838654912281067
+      hell-hound-idle_1: -9187898804056352420
+      hell-hound-idle_10: -8253084536325659631
+      hell-hound-idle_2: 3438411678899222357
+      hell-hound-idle_3: -6621959767494626080
+      hell-hound-idle_4: 9079761984826374916
+      hell-hound-idle_5: 8094724407786866986
+      hell-hound-idle_6: -6227926747352333204
+      hell-hound-idle_7: -2947762296427324860
+      hell-hound-idle_8: 5946879031287655399
+      hell-hound-idle_9: -3929457246339395457
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

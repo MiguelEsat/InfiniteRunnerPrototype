@@ -120,6 +120,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -334,7 +347,16 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Jumping-Demon_0: 584792185310502469
+      Jumping-Demon_1: 1492728841618184257
+      Jumping-Demon_2: 5984116490477461331
+      Jumping-Demon_3: 1883681525221005255
+      Jumping-Demon_4: -1820088984299969105
+      Jumping-Demon_5: 7489871510689197403
+      Jumping-Demon_6: 1038316872415666330
+      Jumping-Demon_7: -224075991612508227
+      Jumping-Demon_8: 2842661760944345585
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

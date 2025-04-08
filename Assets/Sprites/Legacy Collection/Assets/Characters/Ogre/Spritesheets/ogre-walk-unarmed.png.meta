@@ -111,6 +111,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -259,7 +272,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ogre-walk-unarmed_0: -4519957905529197506
+      ogre-walk-unarmed_1: -5785482442720230001
+      ogre-walk-unarmed_2: 207517607543905068
+      ogre-walk-unarmed_3: -4593870237494317882
+      ogre-walk-unarmed_4: -6185229081801900756
+      ogre-walk-unarmed_5: 8025296994574679305
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
