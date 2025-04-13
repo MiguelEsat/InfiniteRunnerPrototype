@@ -32,7 +32,7 @@ public class CoinManager : MonoBehaviour
         coins_per_second_ = PlayerPrefs.GetFloat("CPS", 0.1f);
     }
 
-    void EarnCoins(float amount)
+    public void EarnCoins(float amount)
     {
         score_ += amount;
 

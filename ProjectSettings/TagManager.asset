@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - ScoreText
+  - Coins
+  - Enemies
   layers:
   - Default
   - TransparentFX
@@ -49,11 +51,17 @@ TagManager:
   - name: FrontGround
     uniqueID: 3077445145
     locked: 0
+  - name: Enemies
+    uniqueID: 3213392115
+    locked: 0
   - name: Player
     uniqueID: 424670255
     locked: 0
   - name: Floor
     uniqueID: 1651058081
+    locked: 0
+  - name: Coin
+    uniqueID: 212597151
     locked: 0
   m_RenderingLayers:
   - Default

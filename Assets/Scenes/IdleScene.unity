@@ -490,13 +490,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floor_prefab_: {fileID: 2896348097583444194, guid: dc6a7a4710e279049939b92aa1c0e19e, type: 3}
   chunk_prefab_: {fileID: 9157890439439675957, guid: d882cc85d0dd34948a81c9ad5fa4f6c0, type: 3}
+  possible_coins_:
+  - {fileID: 1861896220496151527, guid: b19d624c3109c6346a59fb0fbbd95111, type: 3}
+  - {fileID: 571358760355457826, guid: 63ffe789c947a644296a056b70809185, type: 3}
+  - {fileID: 571358760355457826, guid: 9454cf1adb81ae349a1ac7d2b2a90ad0, type: 3}
+  possible_enemies_:
+  - {fileID: 3264237062896487978, guid: 71c3620bc70354a48868f0054a337ac8, type: 3}
+  - {fileID: 3264237062896487978, guid: 59d7aabd62a1b1e41be3de5aef77d49f, type: 3}
+  - {fileID: 3264237062896487978, guid: f3ccf57b2a009204282cc4d353659573, type: 3}
+  - {fileID: 3264237062896487978, guid: 93290b3b4d5cea844970acebd0daf60e, type: 3}
+  - {fileID: 3264237062896487978, guid: 0da9620b63ba4e84a85c5ec4d1e9cc65, type: 3}
   tiles_per_chunk_: 5
   tile_width_: 3.5
   chunk_width_: 17.5
   chunk_counter: 0
+  coin_spawn_chance_: 85
+  enemy_spawn_chance_: 30
   preload_count: 3
   chunk_parent_: {fileID: 0}
   speed: 0
+  type_spawn: 0
 --- !u!4 &474146032
 Transform:
   m_ObjectHideFlags: 0

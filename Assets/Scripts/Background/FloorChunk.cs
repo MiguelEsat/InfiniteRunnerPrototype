@@ -8,12 +8,17 @@ public class FloorChunk : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject floor_prefab_;
     [SerializeField] private GameObject chunk_prefab_;
+    [SerializeField] private GameObject[] possible_coins_;
+    [SerializeField] private GameObject[] possible_enemies_;
 
     [Header("Chunk Settings")]
     [SerializeField] private int tiles_per_chunk_ = 5;
     [SerializeField] private float tile_width_ = 3.5f;
     [SerializeField] private float chunk_width_ = 17.5f;
+
     [SerializeField] private int chunk_counter;
+    [SerializeField] private int coin_spawn_chance_ = 95;
+    [SerializeField] private int enemy_spawn_chance_ = 30;
 
     [Header("Chunk Pooling")]
     [SerializeField] private int preload_count = 3;
@@ -34,6 +39,8 @@ public class FloorChunk : MonoBehaviour
 
     [Header("Scrolling")]
     public float speed;
+
+    public bool type_spawn;
 
     void Start()
     {
@@ -180,7 +187,44 @@ public class FloorChunk : MonoBehaviour
         }
 
         new_chunk.transform.position = new Vector3(spawn_x, -4.0f, 0.0f);
+        if (active_chunks_.Count > 0)
+        {
+            PopulateChunk(new_chunk);
+        }
         active_chunks_.Add(new_chunk);
+    }
+
+    void PopulateChunk(GameObject chunk)
+    {
+        ChunkData data = chunk.GetComponent<ChunkData>();
+        if (data == null) return;
+
+        foreach (Transform coin_point in data.coin_spawn_points)
+        {
+            int roll = Random.Range(0, 100);
+            if (roll < coin_spawn_chance_ && possible_coins_.Length > 0)
+            {
+                int coin_index = Random.Range(0, possible_coins_.Length);
+                Instantiate(possible_coins_[coin_index],
+                            coin_point.position,
+                            Quaternion.identity,
+                            chunk.transform);
+            }
+        }
+
+        foreach (Transform enemy_point in data.enemy_spawn_points)
+        {
+            int roll = Random.Range(0, 100);
+            if (roll < enemy_spawn_chance_ && possible_enemies_.Length > 0)
+            {
+                int enemy_index = Random.Range(0, possible_enemies_.Length);
+                GameObject prefab = possible_enemies_[enemy_index];
+                Instantiate(prefab,
+                            enemy_point.position,
+                            prefab.transform.rotation,
+                            chunk.transform);
+            }
+        }
     }
 
     private void DeleteOldestChunk()

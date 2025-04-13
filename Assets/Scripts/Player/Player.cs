@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     public bool is_dashing = false;
 
     [SerializeField] private LayerMask ground_layer_;
+    public Transform ground_check;
 
     void Start()
     {
@@ -93,12 +94,12 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y);
-        if (IsGrounded())
-        {
-            is_grounded = true;
+            animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y);
             animator_.SetBool("IsJumping", false);
-            if (Input.GetButtonDown("Jump"))
+            is_grounded = Physics2D.OverlapCapsule(ground_check.position, new Vector2(1.8f, 0.3f),
+                                                   CapsuleDirection2D.Horizontal, 0, ground_layer_);
+        
+            if (Input.GetButtonDown("Jump") && is_grounded)
             {
                 float current_hori_drift = is_dashing ? dash_horizontal_drift_ : horizontal_drift_;
                 float current_jump_force = is_dashing ? dash_jump_force_ : jump_force_;
@@ -106,26 +107,21 @@ public class Player : MonoBehaviour
 
                 animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y); 
             } 
-        } else
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemies"))
         {
-            animator_.SetBool("IsJumping", true);
-            is_grounded = false;
+            animator_.SetTrigger("Attack");
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Enemies"))
         {
-            //is_grounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            //is_grounded = false;
+            animator_.SetTrigger("Attack");
         }
     }
 
@@ -140,10 +136,11 @@ public class Player : MonoBehaviour
 
     private bool IsGrounded()
     {
-        Collider2D hit = Physics2D.OverlapCircle(transform.position,
-                                                  ground_check_distance_,
-                                                  ground_layer_);
+        Vector2 check_position = (Vector2)transform.position - new Vector2(0, ground_check_distance_);
+        Collider2D hit = Physics2D.OverlapCircle(check_position, ground_check_distance_, ground_layer_);
 
-        return hit;
+        Debug.DrawRay(check_position, Vector2.down * ground_check_distance_, Color.red);
+
+        return hit != null;
     }
 }
