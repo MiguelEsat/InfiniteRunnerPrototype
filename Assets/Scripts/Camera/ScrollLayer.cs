@@ -24,7 +24,6 @@ public class ScrollLayer : MonoBehaviour
         }
         for (int i = 0; i < 2; i++)
         {
-
             backgrounds[i] = transform.GetChild(i);
         }
 
@@ -41,9 +40,9 @@ public class ScrollLayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 deltaMovement = camera.position - lastCamPos;
+        Vector3 deltaMovement = new Vector3(0.001f, 0.0f, 0.0f);
         transform.position += new Vector3(deltaMovement.x * parallaxMulti, 0, 0);
-        lastCamPos= camera.position;
+
 
         foreach(var bg in backgrounds)
         {
@@ -52,14 +51,7 @@ public class ScrollLayer : MonoBehaviour
             {
                 float offset = (camDistance>0) ? spriteWidth * 2f : -spriteWidth * 2f;
                 bg.position += new Vector3(offset, 0, 0);
-
             }
-
-
         }
-
-
-
-
     }
 }
