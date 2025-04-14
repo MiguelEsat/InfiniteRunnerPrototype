@@ -8,7 +8,11 @@ public class EnemyController : MonoBehaviour
     [Header("Handlers")]
     private BoxCollider2D box_collider_;
     private SpriteRenderer sprite_renderer_;
-    
+
+    private bool is_updated = false;
+
+    [SerializeField] private GameObject death_effect_;
+    [SerializeField] private AudioClip death_sfx_;
 
     void Start()
     {
@@ -40,12 +44,22 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        Instantiate(death_effect_, 
+                    transform.position, 
+                    Quaternion.identity);
+        AudioSource.PlayClipAtPoint(death_sfx_, transform.position);
+    }
+
     public void UpdateCollisionBox()
     {
-        if (sprite_renderer_.sprite != null)
+        if (sprite_renderer_.sprite != null && !is_updated)
         {
             box_collider_.offset = sprite_renderer_.sprite.bounds.center;
             box_collider_.size = sprite_renderer_.sprite.bounds.size;
+
+            is_updated = true;
         }
     }
 }

@@ -199,3 +199,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worth: 15
+  death_effect_: {fileID: 3324962898885257799, guid: ba139aa492543274c86b653c8ee3ee81, type: 3}
+  death_sfx_: {fileID: 8300000, guid: 7acea4fa8cb4daa4098083153bf67a98, type: 3}

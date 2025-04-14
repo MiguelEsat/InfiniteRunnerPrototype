@@ -8,6 +8,7 @@ public class Coins : MonoBehaviour
 
     [Header("OnDestroy")]
     [SerializeField] private GameObject on_death_;
+    [SerializeField] private AudioClip pick_sfx_;
 
     [Header("Handlers")]
     private BoxCollider2D box_collider_;
@@ -27,6 +28,7 @@ public class Coins : MonoBehaviour
     private void OnDestroy()
     {
         Instantiate(on_death_, transform.position, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(pick_sfx_, transform.position);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

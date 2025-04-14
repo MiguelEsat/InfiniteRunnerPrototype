@@ -18,7 +18,7 @@ public class FloorChunk : MonoBehaviour
 
     [SerializeField] private int chunk_counter;
     [SerializeField] private int coin_spawn_chance_ = 95;
-    [SerializeField] private int enemy_spawn_chance_ = 30;
+    [SerializeField] private int enemy_spawn_chance_ = 15;
 
     [Header("Chunk Pooling")]
     [SerializeField] private int preload_count = 3;
