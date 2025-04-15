@@ -5,7 +5,7 @@ public class CoinManager : MonoBehaviour
 {
     static public CoinManager instance;
 
-    private float score_;
+    public float score_;
     private float coins_per_second_ = 0.1f;
 
     private float time_accumulator_ = 0.0f;
@@ -55,7 +55,16 @@ public class CoinManager : MonoBehaviour
             time_accumulator_ -= time_accumulator_;
         }
     }
-
+    public bool SpendCoins(float amount)
+    {
+        if (score_ > amount)
+        {
+            score_ -= amount;
+            Debug.Log("Gastaste: " + amount + ", Te quedan: " + score_);
+            return true;
+        }
+        return false;
+    }
     public void UpdateTextOnScreen()
     {
         if (score_text)
