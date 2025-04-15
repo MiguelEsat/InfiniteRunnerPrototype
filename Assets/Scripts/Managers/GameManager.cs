@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     {
         CoinManager.instance.UpdateCoins();
         CoinManager.instance.UpdateTextOnScreen();
+
     }
 
     private void FixedUpdate()
