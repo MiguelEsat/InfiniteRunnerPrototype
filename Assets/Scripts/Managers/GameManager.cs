@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float speed_increment_ = 0.2f;
     [SerializeField] private float delay_ = 5.0f;
+    [SerializeField] private float coin_reward_ = 100000.0f;
 
     public bool is_scene_changing = false;
 
@@ -74,10 +75,12 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "MinigameScene")
         {
             StartCoroutine(SlightIncrement());
+            timer_text.gameObject.SetActive(true);
         }
         else
         {
             StopCoroutine(SlightIncrement());
+            timer_text.gameObject.SetActive(false);
         }
     }
 
@@ -106,6 +109,7 @@ public class GameManager : MonoBehaviour
             } else
             {
                 is_scene_changing = true;
+                CoinManager.instance.EarnCoins(coin_reward_);
                 int current_index = SceneManager.GetActiveScene().buildIndex;
                 int previous_index = Mathf.Max(0, current_index - 1);
                 SceneManager.LoadScene(previous_index);

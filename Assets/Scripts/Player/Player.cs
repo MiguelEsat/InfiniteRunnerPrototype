@@ -126,8 +126,17 @@ public class Player : MonoBehaviour
                 rigidbody_.linearVelocity = new Vector2(rigidbody_.linearVelocityX, current_jump_force);
 
                 animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y); 
-            } 
-    }
+            }
+
+            if (!is_grounded && Input.GetKey(KeyCode.DownArrow))
+            {
+                float fall_speed_multiplier = 2.0f;
+                rigidbody_.linearVelocity = new Vector2(
+                    rigidbody_.linearVelocityX,
+                    rigidbody_.linearVelocity.y - fall_speed_multiplier * Time.deltaTime * 20f
+                );
+            }
+        }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -139,6 +148,11 @@ public class Player : MonoBehaviour
         {
             GameManager.instance.is_scene_changing = true;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            GameManager.instance.is_scene_changing = true;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 

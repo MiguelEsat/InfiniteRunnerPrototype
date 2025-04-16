@@ -269,11 +269,11 @@ public class FloorChunk : MonoBehaviour
     {
         if (possible_obstacles_.Length != 0)
         {
-            float spawn_y = chunk.transform.position.y + 1.5f;
+            float spawn_y = chunk.transform.position.y + 2.0f;
 
             for (int i = 0; i < tiles_per_chunk_; i++)
             {
-                float x_offset = (i * tile_width_) - (chunk_width_ / 2.0f);
+                float x_offset = (i * tile_width_) - (chunk_width_ / 2.0f) + 10.0f;
                 Vector3 spawn_point = new Vector3(chunk.transform.position.x + x_offset, spawn_y, 0f);
 
                 int roll = Random.Range(0, 100);
