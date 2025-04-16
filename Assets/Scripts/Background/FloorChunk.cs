@@ -11,6 +11,7 @@ public class FloorChunk : MonoBehaviour
     [SerializeField] private GameObject[] possible_coins_;
     [SerializeField] private GameObject[] possible_enemies_;
     [SerializeField] private GameObject[] possible_obstacles_;
+    [SerializeField] private GameObject portal_;
 
     [Header("Chunk Settings")]
     [SerializeField] private int tiles_per_chunk_ = 5;
@@ -18,9 +19,10 @@ public class FloorChunk : MonoBehaviour
     [SerializeField] private float chunk_width_ = 17.5f;
 
     [SerializeField] private int chunk_counter;
-    [SerializeField] private int coin_spawn_chance_ = 95;
-    [SerializeField] private int enemy_spawn_chance_ = 15;
-    [SerializeField] private int ob_spawn_chance_ = 65;
+    [SerializeField] private int coin_spawn_chance_;
+    [SerializeField] private int enemy_spawn_chance_;
+    [SerializeField] private int ob_spawn_chance_;
+    [SerializeField] private int portal_spawn_chance_;
 
     [Header("Chunk Pooling")]
     [SerializeField] private int preload_count = 3;
@@ -202,6 +204,7 @@ public class FloorChunk : MonoBehaviour
         if (active_chunks_.Count > 0)
         {
             PopulateChunk(new_chunk);
+            PopulateObstacles(new_chunk);
         }
         active_chunks_.Add(new_chunk);
     }
@@ -211,7 +214,7 @@ public class FloorChunk : MonoBehaviour
         ChunkData data = chunk.GetComponent<ChunkData>();
         if (data == null) return;
 
-        if (possible_coins_ != null)
+        if (possible_coins_.Length != 0)
         {
             foreach (Transform coin_point in data.coin_spawn_points)
             {
@@ -227,7 +230,7 @@ public class FloorChunk : MonoBehaviour
             }
         }
 
-        if (possible_enemies_ != null)
+        if (possible_enemies_.Length != 0)
         {
             foreach (Transform enemy_point in data.enemy_spawn_points)
             {
@@ -243,23 +246,43 @@ public class FloorChunk : MonoBehaviour
                 }
             }
         }
+
+        if (portal_ != null)
+        {
+            foreach (Transform portal_point in data.portal_spawn_points)
+            {
+                int roll = Random.Range(0, 100);
+                if (roll < portal_spawn_chance_)
+                {
+
+                    GameObject porta_prefab = portal_;
+                    Instantiate(porta_prefab,
+                                portal_point.position,
+                                porta_prefab.transform.rotation,
+                                chunk.transform);
+                }
+            }
+        }
     }
 
     void PopulateObstacles(GameObject chunk)
     {
-        float spawn_y = chunk.transform.position.y + 1.5f;
-
-        for (int i = 0; i < tiles_per_chunk_; i++)
+        if (possible_obstacles_.Length != 0)
         {
-            float x_offset = (i * tile_width_) - (chunk_width_ / 2.0f);
-            Vector3 spawn_point = new Vector3(chunk.transform.position.x + x_offset, spawn_y, 0f);
+            float spawn_y = chunk.transform.position.y + 1.5f;
 
-            int roll = Random.Range(0, 100);
-            if (roll < ob_spawn_chance_)
+            for (int i = 0; i < tiles_per_chunk_; i++)
             {
-                int enemy_index = Random.Range(0, possible_enemies_.Length);
-                GameObject prefab = possible_enemies_[enemy_index];
-                Instantiate(prefab, spawn_point, Quaternion.identity, chunk.transform);
+                float x_offset = (i * tile_width_) - (chunk_width_ / 2.0f);
+                Vector3 spawn_point = new Vector3(chunk.transform.position.x + x_offset, spawn_y, 0f);
+
+                int roll = Random.Range(0, 100);
+                if (roll < ob_spawn_chance_)
+                {
+                    int enemy_index = Random.Range(0, possible_obstacles_.Length);
+                    GameObject prefab = possible_obstacles_[enemy_index];
+                    Instantiate(prefab, spawn_point, Quaternion.identity, chunk.transform);
+                }
             }
         }
     }

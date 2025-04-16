@@ -254,7 +254,7 @@ RectTransform:
   - {fileID: 1764361251}
   - {fileID: 1601620862}
   - {fileID: 981890724}
-  m_Father: {fileID: 1132907710}
+  m_Father: {fileID: 1583641658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -393,13 +393,15 @@ MonoBehaviour:
   - {fileID: 3264237062896487978, guid: 93290b3b4d5cea844970acebd0daf60e, type: 3}
   - {fileID: 3264237062896487978, guid: 0da9620b63ba4e84a85c5ec4d1e9cc65, type: 3}
   possible_obstacles_: []
+  portal_: {fileID: 4416913559765782289, guid: 9f4c2b67591bb4c498dae533796e7d2e, type: 3}
   tiles_per_chunk_: 5
   tile_width_: 3.5
   chunk_width_: 17.5
   chunk_counter: 0
   coin_spawn_chance_: 85
-  enemy_spawn_chance_: 15
+  enemy_spawn_chance_: 25
   ob_spawn_chance_: 65
+  portal_spawn_chance_: 1
   preload_count: 3
   chunk_parent_: {fileID: 0}
   speed: 0
@@ -1415,8 +1417,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 377675969}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1132907711
@@ -1631,8 +1632,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score_: 0
-  score_text: {fileID: 0}
-  cps_text: {fileID: 0}
+  score_text: {fileID: 1010399269}
+  cps_text: {fileID: 906396368}
 --- !u!4 &1446615409
 Transform:
   m_ObjectHideFlags: 0
@@ -1764,9 +1765,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1644ef1ed778b45468b554f7113e5e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player_: {fileID: 0}
+  floor_chunk_: {fileID: 0}
   timer_text: {fileID: 981890725}
   mini_game_timer: 300
-  speed_increment_: 0
+  speed_increment_: 0.2
+  delay_: 5
+  is_scene_changing: 0
 --- !u!4 &1583641658
 Transform:
   m_ObjectHideFlags: 0
@@ -1779,7 +1784,8 @@ Transform:
   m_LocalPosition: {x: -3.7637825, y: -1.951119, z: 0.06952102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 377675969}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1599291972
@@ -2218,6 +2224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc56bdd61482814dbf5a611ee82e583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button_: {fileID: 1613311722}
+  image_frame_: {fileID: 2047531803}
 --- !u!1 &1764361250
 GameObject:
   m_ObjectHideFlags: 0

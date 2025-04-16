@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (!Application.isPlaying || on_application_quit) return;
+        if (!Application.isPlaying || on_application_quit || GameManager.instance.is_scene_changing) return;
 
         Instantiate(death_effect_, 
                     transform.position, 

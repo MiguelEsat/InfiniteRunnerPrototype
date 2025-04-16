@@ -408,12 +408,18 @@ MonoBehaviour:
   - {fileID: 571358760355457826, guid: 9454cf1adb81ae349a1ac7d2b2a90ad0, type: 3}
   - {fileID: 1861896220496151527, guid: b19d624c3109c6346a59fb0fbbd95111, type: 3}
   possible_enemies_: []
+  possible_obstacles_:
+  - {fileID: 3028188094664397265, guid: 97f8e5670db4ffc47893ce6ee9b279f3, type: 3}
+  - {fileID: 3028188094664397265, guid: 97f8e5670db4ffc47893ce6ee9b279f3, type: 3}
+  portal_: {fileID: 0}
   tiles_per_chunk_: 5
   tile_width_: 3.5
-  chunk_width_: 17.5
+  chunk_width_: 24
   chunk_counter: 0
   coin_spawn_chance_: 85
   enemy_spawn_chance_: 15
+  ob_spawn_chance_: 100
+  portal_spawn_chance_: 0
   preload_count: 3
   chunk_parent_: {fileID: 0}
   speed: 0
@@ -481,6 +487,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   parallaxMulti: -1
+  backgrounds:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1255936381
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,6 +979,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   parallaxMulti: 0
+  backgrounds:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &1882193758
 Transform:
   m_ObjectHideFlags: 0
@@ -1001,6 +1013,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   parallaxMulti: 0
+  backgrounds:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1885502035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,6 +1047,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   parallaxMulti: -0.5
+  backgrounds:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &1885502037
 Transform:
   m_ObjectHideFlags: 0

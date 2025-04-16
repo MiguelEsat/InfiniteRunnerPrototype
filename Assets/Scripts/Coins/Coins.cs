@@ -1,4 +1,5 @@
 using Mono.Cecil.Cil;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Coins : MonoBehaviour
@@ -14,6 +15,8 @@ public class Coins : MonoBehaviour
     private BoxCollider2D box_collider_;
     private SpriteRenderer sprite_renderer_;
 
+    private bool on_application_quit = false;
+
     private void Start()
     {
         box_collider_ = GetComponent<BoxCollider2D>();
@@ -27,6 +30,8 @@ public class Coins : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (!Application.isPlaying || on_application_quit || GameManager.instance.is_scene_changing) return;
+
         Instantiate(on_death_, transform.position, Quaternion.identity);
         AudioSource.PlayClipAtPoint(pick_sfx_, transform.position);
     }
@@ -38,6 +43,11 @@ public class Coins : MonoBehaviour
             CoinManager.instance.EarnCoins((float)worth);
             Destroy(gameObject);
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        on_application_quit = true;
     }
 
     public void UpdateCollisionBox()

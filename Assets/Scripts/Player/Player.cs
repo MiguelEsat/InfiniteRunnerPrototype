@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -133,6 +134,11 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemies"))
         {
             animator_.SetTrigger("Attack");
+        }
+        if (collision.gameObject.CompareTag("Portal"))
+        {
+            GameManager.instance.is_scene_changing = true;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 

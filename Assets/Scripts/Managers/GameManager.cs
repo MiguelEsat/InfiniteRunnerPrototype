@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,13 +7,16 @@ public class GameManager : MonoBehaviour
 {
     static public GameManager instance;
 
-    private Player player_;
-    private FloorChunk floor_chunk_;
+    public Player player_;
+    public FloorChunk floor_chunk_;
 
     public TMP_Text timer_text;
     public float mini_game_timer = 300.0f;
 
     [SerializeField] private float speed_increment_ = 0.2f;
+    [SerializeField] private float delay_ = 5.0f;
+
+    public bool is_scene_changing = false;
 
     private void Awake()
     {
@@ -29,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        ReassingObjects();
+        ReassignObjects();
     }
 
     void Update()
@@ -51,7 +55,8 @@ public class GameManager : MonoBehaviour
             floor_chunk_.UpdateChunkSpeed();
         } else
         {
-            floor_chunk_.speed = 2.0f;
+            if (SceneManager.GetActiveScene().name != "MinigameScene")
+                floor_chunk_.ResetSpeed();
         }
     }
 
@@ -62,10 +67,21 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        ReassingObjects();
+        is_scene_changing = false;
+        ReassignObjects();
+
+
+        if (SceneManager.GetActiveScene().name == "MinigameScene")
+        {
+            StartCoroutine(SlightIncrement());
+        }
+        else
+        {
+            StopCoroutine(SlightIncrement());
+        }
     }
 
-    private void ReassingObjects()
+    private void ReassignObjects()
     {
         player_ = FindAnyObjectByType<Player>();
         floor_chunk_ = FindAnyObjectByType<FloorChunk>();
@@ -89,20 +105,28 @@ public class GameManager : MonoBehaviour
                 ShowTimer();
             } else
             {
+                is_scene_changing = true;
                 int current_index = SceneManager.GetActiveScene().buildIndex;
                 int previous_index = Mathf.Max(0, current_index - 1);
                 SceneManager.LoadScene(previous_index);
 
                 mini_game_timer = 300.0f;
             }
-        }
+        } 
     }
 
-    private void SlightIncrement()
+    private IEnumerator SlightIncrement()
     {
-        if (SceneManager.GetActiveScene().name == "MinigameScene")
+        while (true)
         {
-            floor_chunk_.IncrementSpeed(speed_increment_);
+            yield return new WaitForSeconds(delay_);
+
+            if (floor_chunk_ != null)
+            {
+                floor_chunk_.IncrementSpeed(speed_increment_);
+
+                yield return null;
+            }
         }
     }
 
