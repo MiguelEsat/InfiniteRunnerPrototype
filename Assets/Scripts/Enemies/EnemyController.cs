@@ -14,10 +14,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject death_effect_;
     [SerializeField] private AudioClip death_sfx_;
 
+    private bool on_application_quit = false;
+
     void Start()
     {
         box_collider_ = GetComponent<BoxCollider2D>();
         sprite_renderer_ = GetComponent<SpriteRenderer>();
+        on_application_quit = false;
     }
 
     
@@ -46,10 +49,17 @@ public class EnemyController : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (!Application.isPlaying || on_application_quit || GameManager.instance.is_scene_changing) return;
+
         Instantiate(death_effect_, 
                     transform.position, 
                     Quaternion.identity);
         AudioSource.PlayClipAtPoint(death_sfx_, transform.position);
+    }
+
+    private void OnApplicationQuit()
+    {
+        on_application_quit = true;
     }
 
     public void UpdateCollisionBox()

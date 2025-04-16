@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
     [Header("Other Variables")]
     private float dash_timer_;
     public float dash_time;
+    public float dash_cd;
+    private float cooldown_timer_ = 0.0f;
 
     [SerializeField] private float jump_hold_time = 0.1f;
     private float jump_hold_timer = 0.0f;
@@ -28,6 +31,7 @@ public class Player : MonoBehaviour
     private bool is_updated = false;
     public bool is_grounded = false;
     public bool is_dashing = false;
+    public bool is_on_cooldown = false;
 
     [SerializeField] private LayerMask ground_layer_;
     public Transform ground_check;
@@ -38,12 +42,15 @@ public class Player : MonoBehaviour
         box_collider_ = GetComponent<BoxCollider2D>();
         rigidbody_ = GetComponent<Rigidbody2D>();
         sprite_ = GetComponent <SpriteRenderer>();
+
+        dash_cd = 15.0f;
     }
 
     void FixedUpdate()
     {
         is_grounded = Physics2D.OverlapCapsule(ground_check.position, new Vector2(1.8f, 0.3f),
                                        CapsuleDirection2D.Horizontal, 0, ground_layer_);
+        UpdateCollisionBox();
     }
 
     public void UpdateCollisionBox()
@@ -76,8 +83,11 @@ public class Player : MonoBehaviour
 
     public void StartDashing()
     {
-        is_dashing = true;
-        animator_.SetFloat("Velocity", 2.0f);
+        if (!is_on_cooldown)
+        {
+            is_dashing = true;
+            animator_.SetFloat("Velocity", 2.0f);
+        }
     }
 
     private void DashingTimer()
@@ -88,8 +98,19 @@ public class Player : MonoBehaviour
             if (dash_timer_ >= dash_time)
             {
                 is_dashing = false;
+                is_on_cooldown = true;
                 dash_timer_ -= dash_timer_;
             }
+        } else if (is_on_cooldown)
+        {
+            cooldown_timer_ += Time.deltaTime;
+
+            if (cooldown_timer_ >= dash_cd)
+            {
+                is_on_cooldown = false;
+                cooldown_timer_ -= cooldown_timer_;
+            }
+
         }
     }
 
@@ -113,6 +134,11 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemies"))
         {
             animator_.SetTrigger("Attack");
+        }
+        if (collision.gameObject.CompareTag("Portal"))
+        {
+            GameManager.instance.is_scene_changing = true;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 

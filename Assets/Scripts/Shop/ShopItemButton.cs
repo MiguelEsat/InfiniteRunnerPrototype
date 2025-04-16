@@ -31,7 +31,8 @@ public class ShopItemButton : MonoBehaviour
     }
     void Update()
     {
-        UpdateButtonUI();
+        if (priceText && levelText && descriptionText)
+            UpdateButtonUI();
     }
 
     
