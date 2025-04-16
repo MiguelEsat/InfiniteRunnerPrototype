@@ -41,7 +41,7 @@ public class ShopItemButton : MonoBehaviour
         if (CoinManager.instance.SpendCoins(currentItem.price))
         {
             currentItem.Buy();
-            currentItem.SaveItems();
+            currentItem.Save();
             UpdateButtonUI();
             CoinManager.instance.UpdateTextOnScreen();
         }

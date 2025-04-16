@@ -12,6 +12,8 @@ public class ShopItem
     public float priceMultiplier;
     public Action onPurchase;
     public Sprite icon;
+    public string PriceKey => "ShopItem_" + itemName + "_Price";
+    public string LevelKey => "ShopItem_" + itemName + "_Level";
 
     public ShopItem(string name, string desc, float cost, Action effect, Sprite sprite, float multiplier = 1.5f)
     {
@@ -33,11 +35,15 @@ public class ShopItem
         onPurchase?.Invoke();
     }
 
-    public void SaveItems()
+    public void Save()
     {
+        PlayerPrefs.SetFloat(PriceKey, price);
+        PlayerPrefs.SetInt(LevelKey, level);
+    }
 
-            PlayerPrefs.SetFloat("Price", price);
-            PlayerPrefs.SetInt("Item Level", level);
-        
+    public void Load()
+    {
+        price = PlayerPrefs.GetFloat(PriceKey, price); // Usa valor actual como predeterminado
+        level = PlayerPrefs.GetInt(LevelKey, level);
     }
 }
