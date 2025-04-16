@@ -4,14 +4,14 @@ using UnityEngine;
 public class ScrollLayer : MonoBehaviour
 {
 
-    [SerializeField] private Transform camera;
+    [SerializeField] private Transform cam;
     [SerializeField] private float parallaxMulti = 0.5f;
 
     private float spriteWidth;
     private Vector3 lastCamPos;
 
 
-    private Transform[] backgrounds = new Transform[2];
+    [SerializeField] private Transform[] backgrounds = new Transform[2];
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,8 +27,8 @@ public class ScrollLayer : MonoBehaviour
             backgrounds[i] = transform.GetChild(i);
         }
 
-        if (camera == null) camera = Camera.main.transform;
-        lastCamPos = camera.position;
+        if (cam == null) cam = Camera.main.transform;
+        lastCamPos = cam.position;
 
         spriteWidth = backgrounds[0].GetComponent<SpriteRenderer>().bounds.size.x;
 
@@ -46,11 +46,14 @@ public class ScrollLayer : MonoBehaviour
 
         foreach(var bg in backgrounds)
         {
-            float camDistance = camera.position.x - bg.position.x;
-            if (Mathf.Abs(camDistance) >= spriteWidth)
+            if (cam)
             {
-                float offset = (camDistance>0) ? spriteWidth * 2f : -spriteWidth * 2f;
-                bg.position += new Vector3(offset, 0, 0);
+                float camDistance = cam.position.x - bg.position.x;
+                if (Mathf.Abs(camDistance) >= spriteWidth)
+                {
+                    float offset = (camDistance>0) ? spriteWidth * 2f : -spriteWidth * 2f;
+                    bg.position += new Vector3(offset, 0, 0);
+                }
             }
         }
     }

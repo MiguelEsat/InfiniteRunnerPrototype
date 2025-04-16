@@ -10,6 +10,7 @@ public class FloorChunk : MonoBehaviour
     [SerializeField] private GameObject chunk_prefab_;
     [SerializeField] private GameObject[] possible_coins_;
     [SerializeField] private GameObject[] possible_enemies_;
+    [SerializeField] private GameObject[] possible_obstacles_;
 
     [Header("Chunk Settings")]
     [SerializeField] private int tiles_per_chunk_ = 5;
@@ -19,6 +20,7 @@ public class FloorChunk : MonoBehaviour
     [SerializeField] private int chunk_counter;
     [SerializeField] private int coin_spawn_chance_ = 95;
     [SerializeField] private int enemy_spawn_chance_ = 15;
+    [SerializeField] private int ob_spawn_chance_ = 65;
 
     [Header("Chunk Pooling")]
     [SerializeField] private int preload_count = 3;
@@ -64,7 +66,7 @@ public class FloorChunk : MonoBehaviour
 
     public void CreateChunkPrefab()
     {
-        GameObject chunk = new GameObject("FloorChunk");
+        GameObject chunk = new GameObject("FloorClearChunk");
 
         for (int i = 0; i < tiles_per_chunk_; i++)
         {
@@ -75,8 +77,8 @@ public class FloorChunk : MonoBehaviour
             tile.name = $"FloorTile_{i}";
         }
         #if UNITY_EDITOR
-                UnityEditor.PrefabUtility.SaveAsPrefabAsset(chunk, 
-                                          "Assets/Entities/Floor/FloorChunk.prefab");
+                UnityEditor.PrefabUtility.SaveAsPrefabAsset(chunk,
+                                          "Assets/Entities/Floor/FloorClearChunk.prefab");
         #endif
 
         DestroyImmediate(chunk);
@@ -121,6 +123,16 @@ public class FloorChunk : MonoBehaviour
                 DeleteOldestChunk();
             }
         }
+    }
+
+    public void ResetSpeed()
+    {
+        speed = 2.0f;
+    }
+
+    public void IncrementSpeed(float increment)
+    {
+        speed += increment;
     }
 
     #region [Chunk Pooling]
@@ -199,30 +211,55 @@ public class FloorChunk : MonoBehaviour
         ChunkData data = chunk.GetComponent<ChunkData>();
         if (data == null) return;
 
-        foreach (Transform coin_point in data.coin_spawn_points)
+        if (possible_coins_ != null)
         {
-            int roll = Random.Range(0, 100);
-            if (roll < coin_spawn_chance_ && possible_coins_.Length > 0)
+            foreach (Transform coin_point in data.coin_spawn_points)
             {
-                int coin_index = Random.Range(0, possible_coins_.Length);
-                Instantiate(possible_coins_[coin_index],
-                            coin_point.position,
-                            Quaternion.identity,
-                            chunk.transform);
+                int roll = Random.Range(0, 100);
+                if (roll < coin_spawn_chance_ && possible_coins_.Length > 0)
+                {
+                    int coin_index = Random.Range(0, possible_coins_.Length);
+                    Instantiate(possible_coins_[coin_index],
+                                coin_point.position,
+                                Quaternion.identity,
+                                chunk.transform);
+                }
             }
         }
 
-        foreach (Transform enemy_point in data.enemy_spawn_points)
+        if (possible_enemies_ != null)
         {
+            foreach (Transform enemy_point in data.enemy_spawn_points)
+            {
+                int roll = Random.Range(0, 100);
+                if (roll < enemy_spawn_chance_ && possible_enemies_.Length > 0)
+                {
+                    int enemy_index = Random.Range(0, possible_enemies_.Length);
+                    GameObject prefab = possible_enemies_[enemy_index];
+                    Instantiate(prefab,
+                                enemy_point.position,
+                                prefab.transform.rotation,
+                                chunk.transform);
+                }
+            }
+        }
+    }
+
+    void PopulateObstacles(GameObject chunk)
+    {
+        float spawn_y = chunk.transform.position.y + 1.5f;
+
+        for (int i = 0; i < tiles_per_chunk_; i++)
+        {
+            float x_offset = (i * tile_width_) - (chunk_width_ / 2.0f);
+            Vector3 spawn_point = new Vector3(chunk.transform.position.x + x_offset, spawn_y, 0f);
+
             int roll = Random.Range(0, 100);
-            if (roll < enemy_spawn_chance_ && possible_enemies_.Length > 0)
+            if (roll < ob_spawn_chance_)
             {
                 int enemy_index = Random.Range(0, possible_enemies_.Length);
                 GameObject prefab = possible_enemies_[enemy_index];
-                Instantiate(prefab,
-                            enemy_point.position,
-                            prefab.transform.rotation,
-                            chunk.transform);
+                Instantiate(prefab, spawn_point, Quaternion.identity, chunk.transform);
             }
         }
     }
