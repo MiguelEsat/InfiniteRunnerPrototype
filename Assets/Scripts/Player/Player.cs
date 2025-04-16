@@ -40,9 +40,10 @@ public class Player : MonoBehaviour
         sprite_ = GetComponent <SpriteRenderer>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        
+        is_grounded = Physics2D.OverlapCapsule(ground_check.position, new Vector2(1.8f, 0.3f),
+                                       CapsuleDirection2D.Horizontal, 0, ground_layer_);
     }
 
     public void UpdateCollisionBox()
@@ -96,8 +97,6 @@ public class Player : MonoBehaviour
     {
             animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y);
             animator_.SetBool("IsJumping", false);
-            is_grounded = Physics2D.OverlapCapsule(ground_check.position, new Vector2(1.8f, 0.3f),
-                                                   CapsuleDirection2D.Horizontal, 0, ground_layer_);
         
             if (Input.GetButtonDown("Jump") && is_grounded)
             {
