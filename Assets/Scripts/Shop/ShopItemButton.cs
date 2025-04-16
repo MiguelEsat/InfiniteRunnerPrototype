@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using System.Diagnostics;
 
 public class ShopItemButton : MonoBehaviour
 {
@@ -33,18 +34,22 @@ public class ShopItemButton : MonoBehaviour
         if (priceText && levelText && descriptionText)
             UpdateButtonUI();
     }
+
+    
+
     void BuyItem()
     {
         if (CoinManager.instance.SpendCoins(currentItem.price))
         {
             currentItem.Buy();
+            currentItem.SaveItems();
             UpdateButtonUI();
             CoinManager.instance.UpdateTextOnScreen();
         }
-        else
+      /*  else
         {
             Debug.Log("No tienes suficientes monedas");
-        }
+        }*/
     }
 
     void UpdateButtonUI()
@@ -53,6 +58,9 @@ public class ShopItemButton : MonoBehaviour
         priceText.text = "Price: " + currentItem.price.ToString("F1");
         levelText.text = "Lvl: " + currentItem.level;
         descriptionText.text = "Cps: " + currentItem.description;
+
+
+
 
         bool canAfford = CoinManager.instance.score_ >= currentItem.price;
 

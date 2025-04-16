@@ -37,12 +37,12 @@ public class GameManager : MonoBehaviour
         CoinManager.instance.UpdateCoins();
         CoinManager.instance.UpdateTextOnScreen();
 
+        player_.PlayerControl();
         UpdateTimer();
     }
 
     private void FixedUpdate()
     {
-        player_.PlayerControl();
         player_.UpdateCollisionBox();
 
         floor_chunk_.UpdateChunks();

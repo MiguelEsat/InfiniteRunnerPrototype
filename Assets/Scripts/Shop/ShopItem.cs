@@ -28,6 +28,16 @@ public class ShopItem
     {
         level++;
         price = (float)Math.Round(price * priceMultiplier, 2);
+
+
         onPurchase?.Invoke();
+    }
+
+    public void SaveItems()
+    {
+
+            PlayerPrefs.SetFloat("Price", price);
+            PlayerPrefs.SetInt("Item Level", level);
+        
     }
 }
