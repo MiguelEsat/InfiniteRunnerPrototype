@@ -248,7 +248,6 @@ public class FloorChunk : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-   
         if (cam == null) return;
 
         Gizmos.color = Color.green;
