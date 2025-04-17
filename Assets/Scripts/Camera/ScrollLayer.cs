@@ -11,6 +11,7 @@ public class ScrollLayer : MonoBehaviour
     private Vector3 lastCamPos;
 
 
+
     [SerializeField] private Transform[] backgrounds = new Transform[2];
 
 
@@ -44,17 +45,18 @@ public class ScrollLayer : MonoBehaviour
         transform.position += new Vector3(deltaMovement.x * parallaxMulti, 0, 0);
 
 
-        foreach(var bg in backgrounds)
+        foreach (var bg in backgrounds)
         {
-            if (cam)
-            {
-                float camDistance = cam.position.x - bg.position.x;
-                if (Mathf.Abs(camDistance) >= spriteWidth)
+                if (cam)
                 {
-                    float offset = (camDistance>0) ? spriteWidth * 2f : -spriteWidth * 2f;
-                    bg.position += new Vector3(offset, 0, 0);
+                    float camDistance = cam.position.x - bg.position.x;
+                    if (Mathf.Abs(camDistance) >= spriteWidth)
+                    {
+                        float offset = (camDistance > 0) ? spriteWidth * 2f : -spriteWidth * 2f;
+                        bg.position += new Vector3(offset, 0, 0);
+
+                    }
                 }
-            }
         }
     }
 }
