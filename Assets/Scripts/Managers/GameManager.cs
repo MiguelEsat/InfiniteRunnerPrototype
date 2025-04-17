@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,14 +11,22 @@ public class GameManager : MonoBehaviour
     public Player player_;
     public FloorChunk floor_chunk_;
 
+    [Header("Minigame")]
     public TMP_Text timer_text;
+    public TMP_Text win_text;
+    public TMP_Text loss_text;
+
+    public Image image_condition;
+
     public float mini_game_timer = 300.0f;
+    public float screen_timer;
 
     [SerializeField] private float speed_increment_ = 0.2f;
     [SerializeField] private float delay_ = 5.0f;
     [SerializeField] private float coin_reward_ = 100000.0f;
 
     public bool is_scene_changing = false;
+    public bool start_timer = false;
 
     private void Awake()
     {
@@ -42,8 +51,13 @@ public class GameManager : MonoBehaviour
         CoinManager.instance.UpdateCoins();
         CoinManager.instance.UpdateTextOnScreen();
 
-        player_.PlayerControl();
+        if (!start_timer)
+        {
+            player_.PlayerControl();
+        }
+
         UpdateTimer();
+        PlayerLoss();
     }
 
     private void FixedUpdate()
@@ -70,7 +84,9 @@ public class GameManager : MonoBehaviour
     {
         is_scene_changing = false;
         ReassignObjects();
-
+        mini_game_timer = 300.0f;
+        start_timer = false;
+        screen_timer = 0.0f;
 
         if (SceneManager.GetActiveScene().name == "MinigameScene")
         {
@@ -108,14 +124,11 @@ public class GameManager : MonoBehaviour
                 ShowTimer();
             } else
             {
-                is_scene_changing = true;
-                CoinManager.instance.EarnCoins(coin_reward_);
-                int current_index = SceneManager.GetActiveScene().buildIndex;
-                int previous_index = Mathf.Max(0, current_index - 1);
-                SceneManager.LoadScene(previous_index);
-
-                mini_game_timer = 300.0f;
+                image_condition.gameObject.SetActive(true);
+                win_text.gameObject.SetActive(true);
+                screen_timer += Time.deltaTime;
             }
+            GoBackToGame();
         } 
     }
 
@@ -131,6 +144,46 @@ public class GameManager : MonoBehaviour
 
                 yield return null;
             }
+        }
+    }
+
+    public void GoBackToGame() { 
+        if (screen_timer > 5.0f && mini_game_timer < 0)
+        {
+            is_scene_changing = true;
+            CoinManager.instance.EarnCoins(coin_reward_);
+            image_condition.gameObject.SetActive(false);
+            win_text.gameObject.SetActive(false);
+
+            int current_index = SceneManager.GetActiveScene().buildIndex;
+            int previous_index = Mathf.Max(0, current_index - 1);
+            SceneManager.LoadScene(previous_index);
+
+            screen_timer -= screen_timer;
+        }
+    }
+
+    public void PlayerLoss()
+    {
+        if (start_timer)
+        {
+            floor_chunk_.StopChunks();
+            image_condition.gameObject.SetActive(true);
+            loss_text.gameObject.SetActive(true);
+
+            screen_timer += Time.deltaTime;
+        }
+
+        if (screen_timer > 5.0f && mini_game_timer > 0)
+        {
+            GameManager.instance.is_scene_changing = true;
+            player_.PAnimator().SetBool("IsDead", false);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+
+            image_condition.gameObject.SetActive(false);
+            loss_text.gameObject.SetActive(false);
+
+            screen_timer -= screen_timer;
         }
     }
 

@@ -29,9 +29,11 @@ public class Player : MonoBehaviour
     private float jump_hold_timer = 0.0f;
 
     private bool is_updated = false;
+
     public bool is_grounded = false;
     public bool is_dashing = false;
     public bool is_on_cooldown = false;
+    public bool is_dead = false;
 
     [SerializeField] private LayerMask ground_layer_;
     public Transform ground_check;
@@ -149,10 +151,13 @@ public class Player : MonoBehaviour
             GameManager.instance.is_scene_changing = true;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (GameManager.instance.mini_game_timer > 0 && !GameManager.instance.start_timer)
         {
-            GameManager.instance.is_scene_changing = true;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            if (collision.gameObject.CompareTag("Obstacle"))
+            {
+                GameManager.instance.start_timer = true;
+                animator_.SetBool("IsDead", true);
+            }
         }
     }
 
@@ -172,6 +177,8 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position,
                               ground_check_distance_);
     }
+
+    public Animator PAnimator() { return animator_; }
 
     private bool IsGrounded()
     {

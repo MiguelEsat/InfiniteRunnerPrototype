@@ -132,6 +132,11 @@ public class FloorChunk : MonoBehaviour
         speed = 2.0f;
     }
 
+    public void StopChunks()
+    {
+        speed = 0.0f;
+    }
+
     public void IncrementSpeed(float increment)
     {
         speed += increment;
