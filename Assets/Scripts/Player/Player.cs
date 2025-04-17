@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask ground_layer_;
     public Transform ground_check;
 
+
+
     void Start()
     {
         animator_ = GetComponent<Animator>();   
@@ -52,6 +54,11 @@ public class Player : MonoBehaviour
     {
         is_grounded = Physics2D.OverlapCapsule(ground_check.position, new Vector2(1.8f, 0.3f),
                                        CapsuleDirection2D.Horizontal, 0, ground_layer_);
+        if(transform.position.y < -5.0f)
+        {
+            GameManager.instance.start_timer = true;
+            animator_.SetBool("IsDead", true);
+        }
         UpdateCollisionBox();
     }
 
@@ -149,7 +156,16 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Portal"))
         {
             GameManager.instance.is_scene_changing = true;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            int randomNumber = UnityEngine.Random.Range(1, 3);
+            if (randomNumber == 1)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                randomNumber = 0;
+            }
+            else if(randomNumber == 2){
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+                randomNumber = 0;
+            }
         }
         if (GameManager.instance.mini_game_timer > 0 && !GameManager.instance.start_timer)
         {

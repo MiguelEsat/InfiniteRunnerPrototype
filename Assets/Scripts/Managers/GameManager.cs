@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float delay_ = 5.0f;
     [SerializeField] private float coin_reward_ = 100000.0f;
 
+    public Button[] Buttons = new Button[2];
+    public Image image;
     public bool is_scene_changing = false;
     public bool start_timer = false;
 
@@ -55,7 +57,22 @@ public class GameManager : MonoBehaviour
         {
             player_.PlayerControl();
         }
-
+        if (SceneManager.GetActiveScene().name == "MinigameScene" || SceneManager.GetActiveScene().name == "MinigameScene2")
+        {
+            for (int i = 0; i < Buttons.Length; i++)
+            {
+                Buttons[i].gameObject.SetActive(false);
+            }
+            image.gameObject.SetActive(false);
+        }
+        else if (SceneManager.GetActiveScene().name == "IdleScene")
+        {
+            for (int i = 0; i < Buttons.Length; i++)
+            {
+                Buttons[i].gameObject.SetActive(true);
+            }
+            image.gameObject.SetActive(true);
+        }
         UpdateTimer();
         PlayerLoss();
     }
@@ -70,7 +87,7 @@ public class GameManager : MonoBehaviour
             floor_chunk_.UpdateChunkSpeed();
         } else
         {
-            if (SceneManager.GetActiveScene().name != "MinigameScene")
+            if (SceneManager.GetActiveScene().name != "MinigameScene" || SceneManager.GetActiveScene().name != "MinigameScene2")
                 floor_chunk_.ResetSpeed();
         }
     }
@@ -88,7 +105,7 @@ public class GameManager : MonoBehaviour
         start_timer = false;
         screen_timer = 0.0f;
 
-        if (SceneManager.GetActiveScene().name == "MinigameScene")
+        if (SceneManager.GetActiveScene().name == "MinigameScene" || SceneManager.GetActiveScene().name == "MinigameScene2")
         {
             StartCoroutine(SlightIncrement());
             timer_text.gameObject.SetActive(true);
@@ -116,7 +133,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        if (SceneManager.GetActiveScene().name == "MinigameScene")
+        if (SceneManager.GetActiveScene().name == "MinigameScene" || SceneManager.GetActiveScene().name == "MinigameScene2")
         {
             if (mini_game_timer > 0)
             {
@@ -154,11 +171,18 @@ public class GameManager : MonoBehaviour
             CoinManager.instance.EarnCoins(coin_reward_);
             image_condition.gameObject.SetActive(false);
             win_text.gameObject.SetActive(false);
-
-            int current_index = SceneManager.GetActiveScene().buildIndex;
-            int previous_index = Mathf.Max(0, current_index - 1);
-            SceneManager.LoadScene(previous_index);
-
+            if (SceneManager.GetActiveScene().name == "MinigameScene")
+            {
+                int current_index = SceneManager.GetActiveScene().buildIndex;
+                int previous_index = Mathf.Max(0, current_index - 1);
+                SceneManager.LoadScene(previous_index);
+            }
+            else if (SceneManager.GetActiveScene().name == "MinigameScene2")
+            {
+                int current_index = SceneManager.GetActiveScene().buildIndex;
+                int previous_index = Mathf.Max(0, current_index - 2);
+                SceneManager.LoadScene(previous_index);
+            }
             screen_timer -= screen_timer;
         }
     }
@@ -178,8 +202,10 @@ public class GameManager : MonoBehaviour
         {
             GameManager.instance.is_scene_changing = true;
             player_.PAnimator().SetBool("IsDead", false);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-
+            if (SceneManager.GetActiveScene().name == "MinigameScene")
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            else if (SceneManager.GetActiveScene().name == "MinigameScene2")
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
             image_condition.gameObject.SetActive(false);
             loss_text.gameObject.SetActive(false);
 
