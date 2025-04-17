@@ -29,9 +29,11 @@ public class Player : MonoBehaviour
     private float jump_hold_timer = 0.0f;
 
     private bool is_updated = false;
+
     public bool is_grounded = false;
     public bool is_dashing = false;
     public bool is_on_cooldown = false;
+    public bool is_dead = false;
 
     [SerializeField] private LayerMask ground_layer_;
     public Transform ground_check;
@@ -126,8 +128,17 @@ public class Player : MonoBehaviour
                 rigidbody_.linearVelocity = new Vector2(rigidbody_.linearVelocityX, current_jump_force);
 
                 animator_.SetFloat("VerticalVel", rigidbody_.linearVelocity.y); 
-            } 
-    }
+            }
+
+            if (!is_grounded && Input.GetKey(KeyCode.DownArrow))
+            {
+                float fall_speed_multiplier = 2.0f;
+                rigidbody_.linearVelocity = new Vector2(
+                    rigidbody_.linearVelocityX,
+                    rigidbody_.linearVelocity.y - fall_speed_multiplier * Time.deltaTime * 20f
+                );
+            }
+        }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -139,6 +150,14 @@ public class Player : MonoBehaviour
         {
             GameManager.instance.is_scene_changing = true;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        if (GameManager.instance.mini_game_timer > 0 && !GameManager.instance.start_timer)
+        {
+            if (collision.gameObject.CompareTag("Obstacle"))
+            {
+                GameManager.instance.start_timer = true;
+                animator_.SetBool("IsDead", true);
+            }
         }
     }
 
@@ -158,6 +177,8 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position,
                               ground_check_distance_);
     }
+
+    public Animator PAnimator() { return animator_; }
 
     private bool IsGrounded()
     {
