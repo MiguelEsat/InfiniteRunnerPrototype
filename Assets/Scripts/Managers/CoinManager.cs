@@ -29,7 +29,7 @@ public class CoinManager : MonoBehaviour
     void Start()
     {
         score_ = PlayerPrefs.GetFloat("Coins", 0.0f);
-        coins_per_second_ = PlayerPrefs.GetFloat("CPS", 0.1f);
+        coins_per_second_ = PlayerPrefs.GetFloat("CPS", 0.0f);
     }
 
     public void EarnCoins(float amount)

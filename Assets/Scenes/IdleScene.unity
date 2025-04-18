@@ -620,7 +620,7 @@ MonoBehaviour:
   coin_spawn_chance_: 85
   enemy_spawn_chance_: 25
   ob_spawn_chance_: 65
-  portal_spawn_chance_: 1
+  portal_spawn_chance_: 15
   preload_count: 3
   chunk_parent_: {fileID: 0}
   speed: 0
@@ -1487,7 +1487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5647116566561223439, guid: 96e6ad26937aae949b03e3452d73a969, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.57
+      value: -7.14
       objectReference: {fileID: 0}
     - target: {fileID: 5647116566561223439, guid: 96e6ad26937aae949b03e3452d73a969, type: 3}
       propertyPath: m_LocalPosition.y

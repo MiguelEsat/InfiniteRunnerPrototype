@@ -25,9 +25,6 @@ public class Player : MonoBehaviour
     public float dash_cd;
     private float cooldown_timer_ = 0.0f;
 
-    [SerializeField] private float jump_hold_time = 0.1f;
-    private float jump_hold_timer = 0.0f;
-
     private bool is_updated = false;
 
     public bool is_grounded = false;
