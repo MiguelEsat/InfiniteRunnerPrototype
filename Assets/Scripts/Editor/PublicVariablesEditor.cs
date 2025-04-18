@@ -26,11 +26,16 @@ public class PublicVariablesEditor : EditorWindow
         foreach (MonoBehaviour script in scripts)
         {
             List<FieldInfo> fields = new List<FieldInfo>();
-            FieldInfo[] allFields = script.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] allFields = script.GetType().GetFields(BindingFlags.Public 
+                                                               | BindingFlags.Instance
+                                                               | BindingFlags.NonPublic);
 
             foreach (FieldInfo field in allFields)
             {
-                if (!field.IsStatic) // Ignorar campos estáticos
+                if (field.IsStatic)
+                    continue;
+
+                if (field.IsPublic || field.GetCustomAttribute<SerializeField>() != null)
                 {
                     fields.Add(field);
                 }

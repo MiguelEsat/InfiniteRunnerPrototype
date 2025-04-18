@@ -280,7 +280,7 @@ MonoBehaviour:
   portal_: {fileID: 0}
   tiles_per_chunk_: 3
   tile_width_: 3.5
-  chunk_width_: 10.5
+  chunk_width_: 10.85
   chunk_counter: 0
   coin_spawn_chance_: 85
   enemy_spawn_chance_: 15

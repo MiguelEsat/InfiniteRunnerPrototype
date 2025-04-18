@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     public Image image_condition;
 
-    public float mini_game_timer = 300.0f;
+    public float mini_game_timer = 180.0f;
     public float screen_timer;
 
     [SerializeField] private float speed_increment_ = 0.2f;
@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     public Image image;
     public bool is_scene_changing = false;
     public bool start_timer = false;
+
+    private int random_number_ = 0;
 
     private void Awake()
     {
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ReassignObjects();
+        random_number_ = UnityEngine.Random.Range(1, 3);
     }
 
     void Update()
@@ -57,7 +60,7 @@ public class GameManager : MonoBehaviour
         {
             player_.PlayerControl();
         }
-        if (SceneManager.GetActiveScene().name == "MinigameScene" || SceneManager.GetActiveScene().name == "MinigameScene2")
+        if (SceneManager.GetActiveScene().name != "IdleScene")
         {
             for (int i = 0; i < Buttons.Length; i++)
             {
@@ -87,7 +90,7 @@ public class GameManager : MonoBehaviour
             floor_chunk_.UpdateChunkSpeed();
         } else
         {
-            if (SceneManager.GetActiveScene().name != "MinigameScene" || SceneManager.GetActiveScene().name != "MinigameScene2")
+            if (SceneManager.GetActiveScene().name == "IdleScene")
                 floor_chunk_.ResetSpeed();
         }
     }
@@ -101,11 +104,11 @@ public class GameManager : MonoBehaviour
     {
         is_scene_changing = false;
         ReassignObjects();
-        mini_game_timer = 300.0f;
+        mini_game_timer = 180.0f;
         start_timer = false;
         screen_timer = 0.0f;
 
-        if (SceneManager.GetActiveScene().name == "MinigameScene" || SceneManager.GetActiveScene().name == "MinigameScene2")
+        if (SceneManager.GetActiveScene().name != "IdleScene")
         {
             StartCoroutine(SlightIncrement());
             timer_text.gameObject.SetActive(true);
@@ -133,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        if (SceneManager.GetActiveScene().name == "MinigameScene" || SceneManager.GetActiveScene().name == "MinigameScene2")
+        if (SceneManager.GetActiveScene().name != "IdleScene")
         {
             if (mini_game_timer > 0)
             {
@@ -171,18 +174,13 @@ public class GameManager : MonoBehaviour
             CoinManager.instance.EarnCoins(coin_reward_);
             image_condition.gameObject.SetActive(false);
             win_text.gameObject.SetActive(false);
-            if (SceneManager.GetActiveScene().name == "MinigameScene")
+            if (SceneManager.GetActiveScene().name != "IdleScene")
             {
                 int current_index = SceneManager.GetActiveScene().buildIndex;
-                int previous_index = Mathf.Max(0, current_index - 1);
+                int previous_index = Mathf.Max(0, current_index - random_number_);
                 SceneManager.LoadScene(previous_index);
             }
-            else if (SceneManager.GetActiveScene().name == "MinigameScene2")
-            {
-                int current_index = SceneManager.GetActiveScene().buildIndex;
-                int previous_index = Mathf.Max(0, current_index - 2);
-                SceneManager.LoadScene(previous_index);
-            }
+            random_number_ = UnityEngine.Random.Range(1, 3);
             screen_timer -= screen_timer;
         }
     }
@@ -202,13 +200,13 @@ public class GameManager : MonoBehaviour
         {
             GameManager.instance.is_scene_changing = true;
             player_.PAnimator().SetBool("IsDead", false);
-            if (SceneManager.GetActiveScene().name == "MinigameScene")
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-            else if (SceneManager.GetActiveScene().name == "MinigameScene2")
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+            if (SceneManager.GetActiveScene().name != "IdleScene")
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - random_number_);
+ 
             image_condition.gameObject.SetActive(false);
             loss_text.gameObject.SetActive(false);
 
+            random_number_ = UnityEngine.Random.Range(1, 3);
             screen_timer -= screen_timer;
         }
     }
@@ -217,4 +215,6 @@ public class GameManager : MonoBehaviour
     {
         return player_;
     }
+
+    public int RandomNumber() { return random_number_; }
 }

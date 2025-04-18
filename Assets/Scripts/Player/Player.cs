@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         rigidbody_ = GetComponent<Rigidbody2D>();
         sprite_ = GetComponent <SpriteRenderer>();
 
-        dash_cd = 15.0f;
+        dash_cd = 10.0f;
     }
 
     void FixedUpdate()
@@ -156,16 +156,8 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Portal"))
         {
             GameManager.instance.is_scene_changing = true;
-            int randomNumber = UnityEngine.Random.Range(1, 3);
-            if (randomNumber == 1)
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-                randomNumber = 0;
-            }
-            else if(randomNumber == 2){
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
-                randomNumber = 0;
-            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex 
+            + GameManager.instance.RandomNumber());
         }
         if (GameManager.instance.mini_game_timer > 0 && !GameManager.instance.start_timer)
         {
